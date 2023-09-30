@@ -5,6 +5,8 @@
     <title>Title</title>
 </head>
 <body>
+<div th:insert="~{fragments/navbar.html :: navbar}"></div>
+<br>
 
 <div class="row mb-4">
     <div class="col-md-6 offset-md-3">
@@ -53,7 +55,7 @@
 
 
             <a th:href="@{'/tecnicos'}" class="btn btn-danger">Cancelar</a>
-            <button type="submit" class="btn btn-primary"
+            <button type="submit" class="btn btn-danger"
                     th:text="${tecnico.id==0? 'Guardar':'Actualizar'}">Actualizar
             </button>
         </form>

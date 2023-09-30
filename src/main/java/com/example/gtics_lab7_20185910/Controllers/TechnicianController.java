@@ -33,25 +33,33 @@ public class TechnicianController {
     }
 
     @GetMapping("/editar")
-    public String editar(@ModelAttribute("product") Technician technician,
-                                      Model model, @RequestParam("id") int id) {
+    public String editar(@ModelAttribute("product")
+                                      Model model, @RequestParam("id") String idStr,
+                         @ModelAttribute("usuario") @Valid Technician technician, BindingResult bindingResult) {
 
-        Optional<Technician> optionalTechnician = technicianRepository.findById(id);
+        try{
+            int id = Integer.parseInt(idStr);
+            if (id <= 0 || !technicianRepository.existsById(id)) {
+                return "redirect:/tecnicos/lista";
+            }
+            Optional<Technician> optionalUsuario = technicianRepository.findById(id);
+            if (optionalUsuario.isPresent()) {
+                technician = optionalUsuario.get();
+                model.addAttribute("tecnico", technician);
 
-        if (optionalTechnician.isPresent()) {
-            technician = optionalTechnician.get();
-            model.addAttribute("tecnico", technician);
-
-            return "tecnicos/new";
-        } else {
-            return "redirect:/tecnicos/lista";
+                return "tecnico/new";
+            } else {
+                return "redirect:/lista";
+            }
+        } catch (NumberFormatException e) {
+            return "redirect:/tenicos/lista";
         }
     }
 
 
 
     @PostMapping("/save")
-    public String guardarProducto(RedirectAttributes attr, Model model,
+    public String guardar(RedirectAttributes attr, Model model,
                                   @ModelAttribute("tecnico") @Valid Technician technician, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
 
@@ -67,6 +75,8 @@ public class TechnicianController {
         } else {
             return "tecnicos/new";
         }
+
+
     }
 
 
