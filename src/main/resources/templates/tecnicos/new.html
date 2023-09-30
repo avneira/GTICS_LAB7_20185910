@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="row mb-4">
+    <div class="col-md-6 offset-md-3">
+        <h2 th:text="${tecnico.id==0? 'Nuevo Tecnico':'Editar Tecnico'}">Editar Tecnico</h2>
+        <hr/>
+        <div class="alert alert-danger" role="alert" th:if="${msg != null}" th:text="${msg}">
+            A simple success alert—check it out!
+        </div>
+        <form method="post" th:action="@{'/tecnicos/save'}" th:object="${tecnico}">
+            <input th:field="*{id}" type="hidden"/>
+
+            <div class="mb-3">
+                <label class="form-label">Nombre</label>
+                <input th:field="*{firstname}" type="text" class="form-control"
+                       th:classappend="${#fields.hasErrors('firstname')?'is-invalid':''}"/>
+                <div id="validationServer03Feedback" class="invalid-feedback"
+                     th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}">
+                </div>
+            </div>
+
+
+            <div class="mb-3">
+                <label class="form-label">Apellido</label>
+                <input th:field="*{lastname}" type="text" class="form-control"
+                       th:classappend="${#fields.hasErrors('lastname')?'is-invalid':''}"/>
+                <div id="validationServer02Feedback" class="invalid-feedback"
+                     th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">DNI</label>
+                <input th:field="*{dni}" type="text" th:class="${#fields.hasErrors('dni')?'form-control is-invalid':'form-control'}"/>
+                <div class="invalid-feedback"
+                     th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Celular</label>
+                <input th:field="*{phone}" type="text" th:class="${#fields.hasErrors('phone')?'form-control is-invalid':'form-control'}"/>
+                <div class="invalid-feedback"
+                     th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">
+                </div>
+            </div>
+
+
+            <a th:href="@{'/tecnicos'}" class="btn btn-danger">Cancelar</a>
+            <button type="submit" class="btn btn-primary"
+                    th:text="${tecnico.id==0? 'Guardar':'Actualizar'}">Actualizar
+            </button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
